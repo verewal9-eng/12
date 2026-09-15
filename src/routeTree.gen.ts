@@ -16,8 +16,10 @@ import { Route as LibraryRouteImport } from './routes/library'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedWalletRouteImport } from './routes/_authenticated/wallet'
 import { Route as GameGameIdRouteImport } from './routes/game.$gameId'
 import { Route as AuthenticatedPlayersUserIdRouteImport } from './routes/_authenticated/players.$userId'
+import { Route as ApiPublicYookassaWebhookRouteImport } from './routes/api/public/yookassa-webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -53,6 +55,11 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedWalletRoute = AuthenticatedWalletRouteImport.update({
+  id: '/wallet',
+  path: '/wallet',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const GameGameIdRoute = GameGameIdRouteImport.update({
   id: '/game/$gameId',
   path: '/game/$gameId',
@@ -64,6 +71,12 @@ const AuthenticatedPlayersUserIdRoute =
     path: '/players/$userId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiPublicYookassaWebhookRoute =
+  ApiPublicYookassaWebhookRouteImport.update({
+    id: '/api/public/yookassa-webhook',
+    path: '/api/public/yookassa-webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -72,8 +85,10 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AuthenticatedAdminRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/wallet': typeof AuthenticatedWalletRoute
   '/game/$gameId': typeof GameGameIdRoute
   '/players/$userId': typeof AuthenticatedPlayersUserIdRoute
+  '/api/public/yookassa-webhook': typeof ApiPublicYookassaWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -82,8 +97,10 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/wallet': typeof AuthenticatedWalletRoute
   '/game/$gameId': typeof GameGameIdRoute
   '/players/$userId': typeof AuthenticatedPlayersUserIdRoute
+  '/api/public/yookassa-webhook': typeof ApiPublicYookassaWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -94,8 +111,10 @@ export interface FileRoutesById {
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/wallet': typeof AuthenticatedWalletRoute
   '/game/$gameId': typeof GameGameIdRoute
   '/_authenticated/players/$userId': typeof AuthenticatedPlayersUserIdRoute
+  '/api/public/yookassa-webhook': typeof ApiPublicYookassaWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -106,8 +125,10 @@ export interface FileRouteTypes {
     | '/admin'
     | '/profile'
     | '/settings'
+    | '/wallet'
     | '/game/$gameId'
     | '/players/$userId'
+    | '/api/public/yookassa-webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -116,8 +137,10 @@ export interface FileRouteTypes {
     | '/admin'
     | '/profile'
     | '/settings'
+    | '/wallet'
     | '/game/$gameId'
     | '/players/$userId'
+    | '/api/public/yookassa-webhook'
   id:
     | '__root__'
     | '/'
@@ -127,8 +150,10 @@ export interface FileRouteTypes {
     | '/_authenticated/admin'
     | '/_authenticated/profile'
     | '/_authenticated/settings'
+    | '/_authenticated/wallet'
     | '/game/$gameId'
     | '/_authenticated/players/$userId'
+    | '/api/public/yookassa-webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -137,6 +162,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   LibraryRoute: typeof LibraryRoute
   GameGameIdRoute: typeof GameGameIdRoute
+  ApiPublicYookassaWebhookRoute: typeof ApiPublicYookassaWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -190,6 +216,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/wallet': {
+      id: '/_authenticated/wallet'
+      path: '/wallet'
+      fullPath: '/wallet'
+      preLoaderRoute: typeof AuthenticatedWalletRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/game/$gameId': {
       id: '/game/$gameId'
       path: '/game/$gameId'
@@ -204,6 +237,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlayersUserIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/yookassa-webhook': {
+      id: '/api/public/yookassa-webhook'
+      path: '/api/public/yookassa-webhook'
+      fullPath: '/api/public/yookassa-webhook'
+      preLoaderRoute: typeof ApiPublicYookassaWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -211,6 +251,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedWalletRoute: typeof AuthenticatedWalletRoute
   AuthenticatedPlayersUserIdRoute: typeof AuthenticatedPlayersUserIdRoute
 }
 
@@ -218,6 +259,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedWalletRoute: AuthenticatedWalletRoute,
   AuthenticatedPlayersUserIdRoute: AuthenticatedPlayersUserIdRoute,
 }
 
@@ -230,6 +272,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   LibraryRoute: LibraryRoute,
   GameGameIdRoute: GameGameIdRoute,
+  ApiPublicYookassaWebhookRoute: ApiPublicYookassaWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

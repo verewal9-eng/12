@@ -19,12 +19,29 @@ export function GameActions({ game, compact = false }: { game: Game; compact?: b
   }
 
   if (!entry) {
+    if (finalPrice(game) === 0) {
+      return (
+        <button
+          onClick={() => {
+            own(game.id);
+            void notify("Игра добавлена в библиотеку", `${game.title} — бесплатно`, "purchase");
+          }}
+          className={`${btn} bg-accent text-accent-foreground hover:opacity-90`}
+        >
+          Забрать бесплатно
+        </button>
+      );
+    }
     return (
       <button
-        onClick={() => own(game.id)}
+        onClick={() => {
+          if (!inCart(game.id)) void addToCart(game.id);
+          setCartOpen(true);
+        }}
         className={`${btn} bg-accent text-accent-foreground hover:opacity-90`}
       >
-        {game.price === 0 ? "Забрать бесплатно" : `Купить — ${formatPrice(finalPrice(game))}`}
+        <ShoppingCart className="h-4 w-4" aria-hidden />
+        {inCart(game.id) ? "В корзине" : `В корзину — ${formatPrice(finalPrice(game))}`}
       </button>
     );
   }

@@ -11,6 +11,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { LibraryProvider } from "@/lib/library";
+import { WalletProvider } from "@/lib/wallet";
+import { CartDrawer } from "@/components/CartDrawer";
 import { AchievementsProvider } from "@/lib/achievements";
 import { AuthProvider } from "@/lib/auth";
 import { RemoteGamesProvider } from "@/lib/remote-games";
@@ -129,6 +131,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
       <RemoteGamesProvider>
+      <WalletProvider>
       <LibraryProvider>
         <AchievementsProvider>
         <div className="min-h-screen p-0 lg:p-10">
@@ -142,9 +145,11 @@ function RootComponent() {
               </main>
             </div>
           </div>
+          <CartDrawer />
         </div>
         </AchievementsProvider>
       </LibraryProvider>
+      </WalletProvider>
       </RemoteGamesProvider>
       </AuthProvider>
     </QueryClientProvider>
