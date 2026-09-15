@@ -131,6 +131,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
       <RemoteGamesProvider>
+      <WalletProvider>
       <LibraryProvider>
         <AchievementsProvider>
         <div className="min-h-screen p-0 lg:p-10">
@@ -144,9 +145,11 @@ function RootComponent() {
               </main>
             </div>
           </div>
+          <CartDrawer />
         </div>
         </AchievementsProvider>
       </LibraryProvider>
+      </WalletProvider>
       </RemoteGamesProvider>
       </AuthProvider>
     </QueryClientProvider>
