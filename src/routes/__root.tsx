@@ -11,6 +11,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { LibraryProvider } from "@/lib/library";
+import { WalletProvider } from "@/lib/wallet";
+import { CartDrawer } from "@/components/CartDrawer";
 import { AchievementsProvider } from "@/lib/achievements";
 import { AuthProvider } from "@/lib/auth";
 import { RemoteGamesProvider } from "@/lib/remote-games";
