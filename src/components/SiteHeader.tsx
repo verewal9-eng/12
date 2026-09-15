@@ -1,10 +1,15 @@
 import { Link } from "@tanstack/react-router";
-import { Bell, Copy, Search, ShoppingCart } from "lucide-react";
+import { Copy, Search, ShoppingCart, Wallet } from "lucide-react";
 import { useLibrary } from "@/lib/library";
+import { formatRub, useWallet } from "@/lib/wallet";
+import { useAuth } from "@/lib/auth";
 import { UserMenu } from "@/components/UserMenu";
+import { NotificationsMenu } from "@/components/NotificationsMenu";
 
 export function SiteHeader() {
   const { entries } = useLibrary();
+  const { user } = useAuth();
+  const { cart, balance, setCartOpen } = useWallet();
   const downloading = Object.values(entries).filter((e) => e.status === "downloading").length;
 
   return (
@@ -16,17 +21,30 @@ export function SiteHeader() {
         <Search className="h-[18px] w-[18px]" aria-hidden />
       </button>
 
-      <div className="flex items-center gap-5">
-        <Link to="/library" aria-label="Корзина" className="relative text-foreground/90 hover:text-foreground">
-          <ShoppingCart className="h-[22px] w-[22px]" aria-hidden />
-          <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
-            {Object.keys(entries).length || 3}
-          </span>
+      {user && (
+        <Link
+          to="/wallet"
+          className="flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-semibold transition-colors hover:bg-surface-2"
+        >
+          <Wallet className="h-4 w-4 text-accent" aria-hidden />
+          {formatRub(balance)}
         </Link>
-        <span className="relative text-foreground/90">
-          <Bell className="h-[22px] w-[22px]" aria-hidden />
-          <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-accent" aria-hidden />
-        </span>
+      )}
+
+      <div className="flex items-center gap-5">
+        <button
+          onClick={() => setCartOpen(true)}
+          aria-label="Открыть корзину"
+          className="relative text-foreground/90 hover:text-foreground"
+        >
+          <ShoppingCart className="h-[22px] w-[22px]" aria-hidden />
+          {cart.length > 0 && (
+            <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
+              {cart.length}
+            </span>
+          )}
+        </button>
+        <NotificationsMenu />
         <span className="relative text-foreground/90">
           <Copy className="h-[22px] w-[22px]" aria-hidden />
           {downloading > 0 && (
